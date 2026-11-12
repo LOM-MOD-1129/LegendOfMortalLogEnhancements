@@ -1,8 +1,8 @@
-# 活俠傳 Log Enhancements
+# 活俠傳 ログ出力拡張MOD
 
 Steam版『活俠傳 / Legend of Mortal』のログ表示・操作を補助する非公式MOD。
 
-現在の配布版：**2.0.2**
+バージョン：**2.1.0**
 
 ## 主な機能
 
@@ -14,31 +14,43 @@ Steam版『活俠傳 / Legend of Mortal』のログ表示・操作を補助す�
 
 ## 対応環境
 
-- Steam版『活俠傳 / Legend of Mortal』v1.0.6001.0
-- Windows 11
-- BepInEx 6.0.0-be.692
-
-それ以前のゲーム版は非対応。ゲーム更新後はMODの対応状況を確認すること。
+- ゲーム：Steam版『活俠傳 / Legend of Mortal』 v1.0.6001.0
+- OS：Windows（確認環境：Windows 11）
+- BepInEx：6.0.0-be.692（32-bit Mono）
 
 ## ダウンロード・導入
 
-[最新リリース](https://github.com/LOM-MOD-1129/LegendOfMortalLogEnhancements/releases/latest)のAssetsから`LegendOfMortalLogEnhancements.zip`をダウンロードして展開。
+このリポジトリの **Releases → Latest**（URL末尾`/releases/latest`）のAssetsから、
+`LegendOfMortalLogEnhancements.zip`をダウンロードして展開。
 
-1. ゲームを終了。
+1. BepInEx 6を導入し、ゲームを終了。
 2. 展開した`LegendOfMortalLogEnhancements`フォルダーを、ゲームの`BepInEx/plugins/`へコピー。
-3. 更新時は同名のDLLを上書き。
+3. 更新時は同名のDLLを上書き。同じMODのDLLを複数の場所へ配置しないこと。
 
 ```text
 BepInEx/plugins/LegendOfMortalLogEnhancements/LegendOfMortalLogEnhancements.dll
 ```
 
-詳しい操作・設定はZIP内の`README_JP.txt`を参照。
-配布ZIPのSHA-256は同じリリースに添付された`SHA256.txt`、更新内容は[変更履歴](CHANGELOG.md)を参照。
+ZIP内の`README_JP.txt`にも導入・基本操作・主な設定を記載。更新内容は[変更履歴](CHANGELOG.md)を参照。
+配布ZIPのSHA-256は同じリリースに添付された`SHA256.txt`を参照。
 Assetsの`Source code (zip)`・`Source code (tar.gz)`はリポジトリの自動アーカイブで、MODの配布ZIPとは別物。
 
-## 設定
+## 操作と設定
 
-初回起動後にゲームを終了し、`BepInEx/config/lom.jp.log.enhancements.cfg`を編集。
+| 操作 | 動作 |
+|---|---|
+| ホイール上 | ログを開く |
+| ホイール下 | 会話中の文章送り。行動選択中は文章を送らない |
+| 右クリック | ログを閉じる |
+| 右スティック／十字キー上下 | 履歴をスクロール。十字キーは長押しで連続移動 |
+
+ゲームパッドでのログの開閉は、ゲーム標準の操作に従う。
+
+ゲームの環境設定画面で、「MOD設定」の「ログ出力拡張」を選択。
+変更はすぐに反映・保存。
+項目は「表示・記録」「操作」の順に並び、下の項目へスクロール可能。
+
+設定ファイルで変更する場合は、初回起動後にゲームを終了し、`BepInEx/config/lom.jp.log.enhancements.cfg`を編集。設定ページを開いている間はファイル変更も自動で反映。MOD全体の有効・無効（`General.Enabled`）、入力の判定量・最小間隔・調査用ログと追加記録の設定は、ファイルでのみ変更可能。
 
 `true`は有効、`false`は無効。各項目は表のセクション内に記載し、変更後にゲームを起動。
 
@@ -77,7 +89,7 @@ Assetsの`Source code (zip)`・`Source code (tar.gz)`はリポジトリの自動
 <details>
 <summary>隠しパラメータの追加記録（任意・ネタバレ注意）</summary>
 
-`LogHiddenParameters`は初期状態ではcfgに表示されず、未記載時は`false`扱い。必要な場合だけ、既存の`[Logging]`セクション内へ次の行を追記。
+`LogHiddenParameters`は初期状態では設定ファイルに表示されず、未記載時は`false`扱い。必要な場合だけ、既存の`[Logging]`セクション内へ次の行を追記。
 
 ```ini
 LogHiddenParameters = true
@@ -88,8 +100,8 @@ LogHiddenParameters = true
 | `false`（未記載時） | 追加記録なし。ゲーム標準の記録への前後値表示のみ。 |
 | `true` | 「料理」（`cook`）と「心変わり」（`change-heart`）の変化を追加記録。 |
 
-`Enabled`と対象の`LogPlayerStats`／`LogRelationships`も有効にする必要あり。`IncludeBeforeAfterValues`を無効にすると、追加行にも前後値は付かない。
-追加記録はセーブに保存されず、ロード後には残らない。無効へ戻す場合は手動行を削除するか`false`へ変更。
+追加記録には`Enabled`と`LogPlayerStats`も有効にする必要あり。`IncludeBeforeAfterValues`を無効にすると、追加行にも前後値は付かない。
+追加記録はセーブに保存されず、ロード後には残らない。無効へ戻す場合は追記した行を削除するか`false`へ変更。
 
 </details>
 
@@ -101,9 +113,13 @@ LogHiddenParameters = true
 
 ## 注意・削除
 
-非公式MODのため、利用環境や他MODの組合せによって正常に動作しない場合がある。導入前にセーブデータのバックアップを推奨。  
-削除する場合はゲーム終了後に`BepInEx/plugins/LegendOfMortalLogEnhancements`を削除。
+- 非公式MODのため、利用環境や他MODとの組み合わせによって正常に動作しない場合がある。導入前にセーブデータのバックアップを推奨。
+- 日本語化MOD以外の他MODとの併用は動作保証の対象外。
+
+ゲーム終了後に`BepInEx/plugins/LegendOfMortalLogEnhancements`を削除。
+設定も不要なら`BepInEx/config/lom.jp.log.enhancements.cfg`を削除可能。
 
 ## ライセンス
 
 [MIT License](LICENSE)。配布ZIPにも同内容の`LICENSE.txt`を同梱。
+ゲーム本体と第三者の著作物へ本MODのライセンスが適用されるものではない。
